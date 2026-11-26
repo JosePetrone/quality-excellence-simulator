@@ -16,7 +16,9 @@ Use a pure transition from versioned scenario rules, prior team state, round con
 
 Engine state needs the previous financial position, available improvement budget and pending effects. Resolve current and due effects, then produce updated finances, six raw KPIs, normalized scores, QES where defined and traceable explanation rule IDs. Treat budget authorization and cash as distinct quantities. The provisional $50,000 quarterly allowance and carryover are calibration inputs. The six provisional QES weights are CSAT 25%, profit margin 20%, on-time delivery 15%, nonconforming PPM 15%, cost of poor quality 15% and productivity 10%. Financial viability gates winning. Exact cash accounting, thresholds, normalization, bases and rounding, delay durations, aggregation and ties require written rules before implementation of those behaviors.
 
-TypeScript is the preferred engine candidate. React, Node.js, PostgreSQL, Supabase and hosted deployment are candidates for later slices. Reassess cost, access controls, recovery and deployment options before selecting live pilot infrastructure. The prototype cash expenditure ceiling in intake is $500.
+Sprint 002 implements `professional-pilot-v1` in `src/simulation.ts`. `initialTeamState` provides the starting state and `resolveQuarter` takes that state or a previous next state plus a decision. Success returns finances, operations, raw and normalized KPIs, QES, explanation IDs and next state. Failure returns an error without a state transition. The approved scenario and calibration are in the Sprint 002 blueprint and acceptance fixtures. The caller owns state and records the effective inputs for replay.
+
+The engine uses dependency-free TypeScript. React, Node.js, PostgreSQL, Supabase and hosted deployment are candidates for later application layers. Reassess cost, access controls, recovery and deployment options before selecting live pilot infrastructure. The prototype cash expenditure ceiling in intake is $500.
 
 ## Illustrative sources
 

@@ -1,6 +1,6 @@
 # QualityEdge validation
 
-Sprint 001 checks the planning artifacts through Pack import verification, Git diff and independent review. The following checks belong to future implementation sprints.
+Sprint 001 checked the planning artifacts through Pack import verification, Git diff and independent review. Sprint 002 adds engine checks. Run `node --test tests/simulation.test.ts` with a Node runtime that supports native TypeScript stripping. The close-out used Node 26.13.1. This command runs runtime tests. The repository has no configured static TypeScript check.
 
 | Check | Evidence expected |
 | --- | --- |
@@ -12,4 +12,4 @@ Sprint 001 checks the planning artifacts through Pack import verification, Git d
 | Round integrity | Check duplicate submissions or close requests, incomplete decisions, reconnect and recovery, and consistent published results across the three operator surfaces. |
 | Pilot rehearsal | On separate computers, run one instructor and exactly two alias-based teams through six rounds and the debrief. Record timings, facilitator interventions, access or recovery failures, and whether each team can explain a decision trade-off. Approve thresholds before the rehearsal. |
 
-The two-quarter worked example offers a candidate fixture shape. For example, using its prior-investment terms yields 8,850 on-time transactions for Team B in Q2. Omitting both prior terms yields 8,100. Adopt expected numbers only after approving the rules and recalculating them independently. Extend coverage with a six-round fixture before relying on the example to support full-session behavior.
+The approved Sprint 002 fixtures exercise two teams across three quarters, a loss and recovery branch, and a six-quarter transition and termination check. Team B reports 9,100 on-time transactions and 79.41 QES in Q2. Without its due effects, the results would be 8,500 and 68.25. Future sprints own final eligibility, aggregation, ties, isolation and the live rehearsal.

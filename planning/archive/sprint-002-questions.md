@@ -1,0 +1,2 @@
+| What initial conditions, accounting, action and event effects, delay rules, units and limits govern the first scenario? | Architect and project owner | Engine coding | Open | Use the supplied examples to illustrate options. Approve any rules used in the engine slice. |
+| What KPI formulas, normalization, rounding, eligibility, aggregation and tie rules apply? | Architect and project owner | Respective scoring implementation | Open | The weights and allowance are provisional. Approve exact rules used in the selected slice. |

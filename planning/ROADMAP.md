@@ -9,7 +9,7 @@
 | # | Sprint | Status | Why it matters |
 | --- | --- | --- | --- |
 | 001 | Discovery and architecture | done | Define the first pilot and record the decisions needed before implementation. |
-| 002 | Deterministic engine slice | planned | Prove that decisions yield reproducible and explainable outcomes. |
+| 002 | Deterministic engine slice | done | Prove that decisions yield reproducible and explainable outcomes. |
 | 003 | Participant decision and results loop | planned | Let teams submit decisions and interpret results. |
 | 004 | Instructor control and isolated session | planned | Let the instructor run the session while protecting each team's decisions. |
 | 005 | Debrief and pilot rehearsal | planned | Prove the six-round flow and measure learning and usability in the pilot. |
