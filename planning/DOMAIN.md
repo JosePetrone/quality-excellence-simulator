@@ -1,66 +1,7 @@
-# Domain Context
+# Domain context
 
-This file captures the operating context for QualityEdge.
+QualityEdge teaches how service-quality decisions affect operational, customer and financial results. A single instructor facilitates the invite-only pilot for two competing teams using aliases. Each team manages a service organization. The instructor controls progress and leads a debrief.
 
----
+A session contains six quarterly rounds at the professional level. Teams allocate an improvement budget across training, process, complaints, technology and risk, make operational decisions and respond to events. One deterministic transition produces financial outcomes, KPIs and effects carried into later rounds. QES means Quality Excellence Score. The simulation uses fictional operating money. The actual prototype spending ceiling is $500.
 
-## Client
-
-Independent commercial venture under the project owner's ownership.
-
----
-
-## Business Goal
-
-QualityEdge is an interactive, team-based business simulation that enables participants to experience how ISO 9001 principles, service quality management and strategic decision-making influence operational performance, customer satisfaction and business profitability.
-
----
-
-## Project Type
-
-SaaS product
-
----
-
-## Primary Users / Roles
-
-TBD.
-
----
-
-## Secondary Users / Roles
-
-TBD.
-
----
-
-## Current Workflow
-
-TBD.
-
----
-
-## Target Workflow
-
-TBD.
-
----
-
-## Key Terms
-
-TBD.
-
----
-
-## Business Rules
-
-TBD.
-
----
-
-## Known Constraints
-
-- Tech stack: Preferred stack, subject to Architect evaluation:- React and TypeScript frontend.- Node.js and TypeScript backend and deterministic simulation engine.- PostgreSQL database.- Supabase for authentication and real-time synchronization.- Vercel for hosting.- GitHub and GitHub Codespaces for version control and development.- Codex and the 120x Architect–Builder methodology.
-- Implementation repo: Downloaded project folder
-- Canonical GitHub repo: https://github.com/JosePetrone/quality-excellence-simulator
-- Do not invent unknown business details. Keep them as `TBD` until the Architect Layer documents them.
+Team decisions and private results are scoped to the team and instructor. Shared debrief outputs use aliases and an approved publication policy. See [architecture](../docs/ARCHITECTURE.md) and [open questions](QUESTIONS.md).
