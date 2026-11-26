@@ -1,45 +1,46 @@
-# Sprint 002 Architect briefing
+# Sprint 003 Architect briefing
 
 ## Where things stand
 
-The deterministic calculation engine is complete. The approved scenario shows how immediate complaint recovery and delayed operational improvements affect team results over time.
+A participant can now make investment decisions and review the results of six quarters in the local professional scenario.
 
 ## Executive summary
 
-- **Business outcome** — Reproducible decision-to-result calculations for the professional pilot scenario.
-- **Current focus** — Prepare the participant decision and results loop for one invite-only session, one instructor and two teams using aliases.
-- **What is proven** — Team fixtures, replay, spending limits, cash reconciliation, immediate and delayed effects, scoring and six-quarter termination.
-- **What is not live** — Participant views, admission, persistence, instructor controls, published results and debrief.
+- **Business outcome** — Participants can act on a budget, see the consequences and use the results to make the next decision.
+- **Current focus** — Specify the instructor-led pilot for one instructor and two invited teams using aliases.
+- **What is proven** — Local input validation, engine-backed finances and KPIs, explanations, carryover and completion.
+- **What is not live** — Invitations, role-scoped access, recovery, shared publication and debrief.
 
 ## Readiness signals
 
 | Signal | Status | Evidence |
 | --- | --- | --- |
-| Engine replay and scoring | passed | Runtime fixtures and independent arithmetic comparison. |
-| Spending and effect boundaries | passed | Tests for allowance and cash, loss and recovery, activation and expiry. |
-| Live pilot | attention | Session isolation, recovery and rehearsal remain future gates. |
+| Participant loop | passed | Browser flow rejected invalid decisions, matched Team B and completed six quarters. |
+| Engine regression | passed | 13 existing engine tests and two participant tests passed. |
+| Live pilot | attention | Session isolation, instructor control and recovery remain future gates. |
 
 ## Validation / test status
 
-**Tests:** 13 passing, 0 failing.
+**Tests:** 15 passing, 0 failing.
 
-No tests skipped or cancelled. No static TypeScript check is configured.
+No skips or cancellations. No static TypeScript check is configured.
 
 ## Evidence
 
-- From clean baseline `794189a`, the Pack importer dry-run returned exit 0 and exactly four Sprint 002 destinations. Apply returned exit 0. A second dry-run after the owner-approved arithmetic correction returned exit 0. All four applied bodies matched the corrected Pack.
-- Builder and Architect each ran `node --test tests/simulation.test.ts` on Node 26.13.1. Exit 0 in each case with 13 passing tests.
-- The independent Architect read the implementation and fixtures against all five acceptance criteria and compared QES and operational results against separately written arithmetic across 1,296 pending-effect combinations. Local flight inspection passed on decision 1 with no blocking findings and zero separate plan-review decisions.
-- `git diff --check` exited 0. Working-tree review included the untracked Pack, applied sprint files and implementation.
+- The Pack dry-run and apply exited 0 and reported exactly the four Sprint 003 destinations. The corrected Pack was dry-run and reapplied before implementation.
+- Node 26.13.1 ran `node --test tests/simulation.test.ts tests/participant.test.ts` with exit 0. The independent reviewer reran it with the same result.
+- `node scripts/serve-participant.mjs` started the loopback preview. Browser verification used port 4174 after the initial sandboxed connection failed. Both screens were visually inspected. Browser checks covered missing, fractional, out-of-range and overspend feedback, scheduled and applied effects, immediate complaints, Q3 carryover, Q6 completion and Q1 reset. Team B Q2 showed $175,000 closing cash, 91.00% on-time delivery and 79.41 QES.
+- The cross-layer inspection passed on decision 1 with zero blockers. Zero separate plan reviews.
+- `git diff --check` exited 0 with line-ending notices.
 
 ## Plan corrections
 
-The owner confirmed the corrected Team A Q4 result of 97.14 QES before production code was written. The approved half-rounding example is 69.625 to 69.63. The Pack and applied acceptance file reflect both values. The prior state mentioned the Sprint 001 starting commit. Sprint 002 used the owner-specified commit `794189a`. The roadmap sequence held.
+The first Pack write interpolated currency amounts. The Pack and applied files were corrected before implementation. The controller owns transition state and returns the result for rendering. The view holds the rendered result. The roadmap sequence held.
 
 ## Recommended next Architect action
 
-- **Do** — Specify the participant decision and results loop.
+- **Do** — Specify instructor controls, team access, session recovery and publication.
 - **Owner** — Project owner and Architect.
-- **Decision** — Approve which inputs, private results and explanations the next slice exposes.
+- **Decision** — Approve who advances a round, how teams enter and recover, and which results participants can see.
 
-Use the fixed scenario to design the participant interaction. Keep invites, authorization and shared publication behind the future session gates.
+Define how the instructor advances rounds and publishes results while keeping each team's decisions private.

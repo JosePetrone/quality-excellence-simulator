@@ -24,3 +24,7 @@ The engine uses dependency-free TypeScript. React, Node.js, PostgreSQL, Supabase
 
 - `board-game-rules.md` supplied by the owner. Its plan–operate–evaluate–improve loop and delayed-service complaint scenario inform the workflow. The reconstructed physical components, dice, five-round format and historical weighting do not govern the digital prototype.
 - `worked-simulation-example.md` supplied by the owner. Its two-quarter example illustrates immediate complaint recovery versus delayed operational improvement. Its coefficients, bounds, accounting simplifications, one-quarter effects and cash-only eligibility are candidate material for review.
+
+## Local participant prototype
+
+Run `node scripts/serve-participant.mjs` and open the printed loopback address. The server serves fixed assets and strips TypeScript for the browser. The page holds one local run for Team Cedar. The participant controller uses the engine for budget authority and round resolution and gates the next decision on the participant continuing from results. The view renders the returned result. Refresh starts quarter one. Sprint 004 owns shared session state and its access and recovery rules.

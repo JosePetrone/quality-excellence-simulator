@@ -8,3 +8,4 @@
 | Double resolution or loss of state disrupts a round | Medium | High | Validate retry and reconnect scenarios before rehearsal. | Open |
 | Prototype cost or classroom time exceeds intake bounds | Medium | Medium | Review infrastructure costs before purchase and record phase timings at rehearsal. | Open |
 | Debrief overstates ISO 9001 alignment | Medium | Medium | Verify mappings and learning claims against authorized text before the pilot. | Open |
+| Local prototype progress is lost on refresh | High | Low for local use | Verify reset in Sprint 003 and define durable state and reconnect in Sprint 004. | Local behavior verified |

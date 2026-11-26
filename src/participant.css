@@ -1,0 +1,54 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #15312c;
+  background: #f4f7f4;
+  line-height: 1.5;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .4rem 1rem;
+  padding: 1rem max(1rem, calc((100% - 54rem) / 2));
+  background: #123f34;
+  color: white;
+}
+main { width: min(54rem, calc(100% - 2rem)); margin: 2rem auto 4rem; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem; line-height: 1.12; }
+h2 { font-size: 1.15rem; }
+.progress { margin-bottom: .35rem; font-weight: 650; color: #40675b; }
+.notice { background: #e4efe8; padding: .8rem 1rem; border-left: .25rem solid #34725e; }
+.metrics, .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; }
+.metrics > div, fieldset, .results-grid > section, .score {
+  background: white;
+  border: 1px solid #d1ded6;
+  border-radius: .7rem;
+  padding: 1rem;
+  min-width: 0;
+}
+fieldset { margin: 1.25rem 0 0; }
+legend { font-weight: 700; padding: 0 .35rem; }
+#guidance { margin-top: 0; }
+dd { margin: 0; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.metrics dd { text-align: left; font-size: 1.35rem; }
+.input-row, .results-grid dl > div, .total, .score {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: .75rem;
+}
+.input-row, .results-grid dl > div { padding: .45rem 0; border-bottom: 1px solid #e7eee9; }
+input { width: 5rem; border: 1px solid #718d82; border-radius: .3rem; padding: .35rem; }
+input, button { font: inherit; }
+button { background: #145846; color: white; border: 0; border-radius: .4rem; min-height: 2.75rem; padding: .6rem 1rem; cursor: pointer; font-weight: 650; }
+button:hover { background: #123f34; }
+:focus-visible { outline: 3px solid #166a9b; outline-offset: 3px; }
+output, .score strong { font-weight: 750; }
+.score strong { font-size: 1.4rem; text-align: right; }
+.results-grid h2 { margin-top: 0; }
+#error { color: #9a251c; }
+#error:empty { margin: 0; }
+li + li { margin-top: .3rem; }

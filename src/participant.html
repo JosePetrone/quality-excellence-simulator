@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QualityEdge | Participant</title>
+  <link rel="stylesheet" href="/participant.css">
+</head>
+<body>
+  <header class="masthead"><strong>QualityEdge</strong><span>Professional pilot · Team Cedar</span></header>
+  <main>
+    <p id="progress" class="progress"></p>
+    <h1 id="title" tabindex="-1">Decision center</h1>
+    <section id="decision" aria-labelledby="title">
+      <p id="disruption" class="notice">A service delay this quarter is expected to reduce on-time delivery and increase nonconforming transactions.</p>
+      <dl id="budget" class="metrics"></dl>
+      <form id="investments" novalidate>
+        <fieldset>
+          <legend>Improvement investments</legend>
+          <p id="guidance"></p>
+          <div id="inputs"></div>
+        </fieldset>
+        <p class="total">Planned spend <output id="total"></output></p>
+        <p id="error" role="alert"></p>
+        <button type="submit">Resolve quarter</button>
+      </form>
+    </section>
+    <section id="results" aria-labelledby="title" hidden>
+      <div class="score"><span>Quality Excellence Score</span><strong id="qes"></strong></div>
+      <div class="results-grid">
+        <section><h2>Performance indicators</h2><dl id="kpis"></dl></section>
+        <section><h2>Finances</h2><dl id="finances"></dl></section>
+      </div>
+      <h2>What affected this quarter</h2>
+      <ul id="effects"></ul>
+      <p id="complete" class="notice" hidden>Simulation complete. You resolved all six quarters.</p>
+      <button id="continue" type="button">Continue to next quarter</button>
+    </section>
+  </main>
+  <script type="module" src="/participant-view.js"></script>
+</body>
+</html>

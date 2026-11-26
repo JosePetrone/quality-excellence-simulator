@@ -13,3 +13,7 @@ Sprint 001 checked the planning artifacts through Pack import verification, Git 
 | Pilot rehearsal | On separate computers, run one instructor and exactly two alias-based teams through six rounds and the debrief. Record timings, facilitator interventions, access or recovery failures, and whether each team can explain a decision trade-off. Approve thresholds before the rehearsal. |
 
 The approved Sprint 002 fixtures exercise two teams across three quarters, a loss and recovery branch, and a six-quarter transition and termination check. Team B reports 9,100 on-time transactions and 79.41 QES in Q2. Without its due effects, the results would be 8,500 and 68.25. Future sprints own final eligibility, aggregation, ties, isolation and the live rehearsal.
+
+## Participant loop
+
+Run `node --test tests/simulation.test.ts tests/participant.test.ts` on Node 26.13.1. Start `node scripts/serve-participant.mjs` and open the printed address. Verify invalid inputs and overspend leave Q1 open. Enter Team B's Q1 fixture and submit zero Q2 spend. Verify scheduled and applied effects and Q2 closing cash of $175,000, on-time delivery of 91.00% and QES of 79.41. Continue through Q6 and verify completion and refresh to Q1. In a separate run check that complaint investment produces an immediate explanation.

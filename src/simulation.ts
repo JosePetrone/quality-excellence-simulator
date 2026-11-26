@@ -1,8 +1,8 @@
 export const RULESET_VERSION = "professional-pilot-v1";
 
-const QUARTERS = 6;
+export const QUARTERS = 6;
 const QUARTERLY_ALLOWANCE = 50_000;
-const BLOCK_COST = 10_000;
+export const BLOCK_COST = 10_000;
 const TRANSACTIONS = 10_000;
 const REVENUE = 500_000;
 const BASE_EXPENSE = 400_000;
@@ -66,6 +66,10 @@ function displayHundredths(numerator: number, denominator = 1): number {
   return magnitude === 0 ? 0 : Math.sign(numerator) * magnitude / 100;
 }
 
+export function availableAllowance(state: TeamState) {
+  return state.carriedAllowance + QUARTERLY_ALLOWANCE;
+}
+
 export function resolveQuarter(state: TeamState, decision: unknown) {
   const quarter = state.nextQuarter;
   if (!Number.isInteger(quarter) || quarter < 1 || quarter > QUARTERS) {
@@ -74,8 +78,8 @@ export function resolveQuarter(state: TeamState, decision: unknown) {
   if (!isDecision(decision)) return { ok: false, error: "invalid-blocks" } as const;
 
   const improvementSpend = BLOCK_COST * categories.reduce((sum, category) => sum + decision[category], 0);
-  const availableAllowance = state.carriedAllowance + QUARTERLY_ALLOWANCE;
-  if (improvementSpend > availableAllowance) return { ok: false, error: "over-allowance" } as const;
+  const authority = availableAllowance(state);
+  if (improvementSpend > authority) return { ok: false, error: "over-allowance" } as const;
   if (improvementSpend > state.cash) return { ok: false, error: "over-cash" } as const;
 
   let onTime = BASE_ON_TIME;
@@ -103,7 +107,7 @@ export function resolveQuarter(state: TeamState, decision: unknown) {
   const poorQualityCost = 100 * nonconforming;
   const operatingProfit = REVENUE - BASE_EXPENSE - poorQualityCost - improvementSpend;
   const closingCash = state.cash + operatingProfit;
-  const closingAllowance = availableAllowance - improvementSpend;
+  const closingAllowance = authority - improvementSpend;
   const nextState: TeamState = {
     nextQuarter: quarter + 1,
     cash: closingCash,
@@ -153,7 +157,7 @@ export function resolveQuarter(state: TeamState, decision: unknown) {
         operatingProfit,
         openingCash: state.cash,
         closingCash,
-        availableAllowance,
+        availableAllowance: authority,
         closingAllowance,
       },
       kpis: {
