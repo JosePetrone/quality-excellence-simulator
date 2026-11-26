@@ -17,3 +17,9 @@ The approved Sprint 002 fixtures exercise two teams across three quarters, a los
 ## Participant loop
 
 Run `node --test tests/simulation.test.ts tests/participant.test.ts` on Node 26.13.1. Start `node scripts/serve-participant.mjs` and open the printed address. Verify invalid inputs and overspend leave Q1 open. Enter Team B's Q1 fixture and submit zero Q2 spend. Verify scheduled and applied effects and Q2 closing cash of $175,000, on-time delivery of 91.00% and QES of 79.41. Continue through Q6 and verify completion and refresh to Q1. In a separate run check that complaint investment produces an immediate explanation.
+
+## Invite-only pilot
+
+Run `node --test tests/simulation.test.ts tests/participant.test.ts tests/pilot.test.ts` with loopback access on Node 26.13.1. Sprint 004 passed 20 tests. The pilot tests use temporary SQLite files and exercise credential lifecycle, role-specific response fields, concurrent resolution, stale commands, restart, invalid checkpoint rejection and transaction rollback.
+
+Run the [local pilot instructions](API.md) in three isolated browser contexts. Confirm that the instructor sees both submissions and can resolve and publish separately. Each team should recover its own view on refresh, have no shared scores before publication, and see both aliases and scores with only its own detailed results after release. Verify a separate-computer HTTPS run before inviting teams.

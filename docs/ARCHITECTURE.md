@@ -28,3 +28,9 @@ The engine uses dependency-free TypeScript. React, Node.js, PostgreSQL, Supabase
 ## Local participant prototype
 
 Run `node scripts/serve-participant.mjs` and open the printed loopback address. The server serves fixed assets and strips TypeScript for the browser. The page holds one local run for Team Cedar. The participant controller uses the engine for budget authority and round resolution and gates the next decision on the participant continuing from results. The view renders the returned result. Refresh starts quarter one. Sprint 004 owns shared session state and its access and recovery rules.
+
+## Invite-only pilot service
+
+Sprint 004 adds a separate Node service and browser entry point. Each database holds one instructor and two team aliases for one session. The service binds to loopback and uses an operator-supplied SQLite file outside the repository. It stores accepted decisions, engine results, next states and publication markers. It validates persisted checkpoints by replaying the fixed ruleset from the initial state. Role credentials are issued separately, expire after 24 hours and are stored as digests. Team rotation requires the instructor role. Instructor renewal requires operator access to the database.
+
+Teams poll role-scoped snapshots. A team sees its own decision, opening budget and published detailed results. Resolve requires two valid submissions and saves both outcomes in one transaction. The instructor publishes in a separate transaction. Publishing releases the quarter's alias and QES for both teams, exposes each team's own details, and opens the next quarter or completes Q6. See [pilot API and operation](API.md).

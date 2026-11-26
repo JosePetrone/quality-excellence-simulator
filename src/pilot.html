@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QualityEdge pilot</title>
+  <link rel="stylesheet" href="/pilot.css">
+  <script type="module" src="/pilot-view.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <strong>QualityEdge</strong>
+    <button id="sign-out" class="secondary" type="button" hidden>Sign out</button>
+  </header>
+  <main>
+    <section id="admission" class="panel admission" aria-labelledby="join-title">
+      <h1 id="join-title">Join the pilot</h1>
+      <form id="sign-in">
+        <label for="credential">Access credential</label>
+        <input id="credential" type="password" required spellcheck="false" autocomplete="off">
+        <button type="submit">Join session</button>
+      </form>
+    </section>
+    <p id="status" role="status"></p>
+    <section id="session" hidden aria-labelledby="session-title">
+      <p id="phase" class="phase" role="status"></p>
+      <h1 id="session-title" tabindex="-1"></h1>
+      <section id="instructor" hidden aria-labelledby="teams-title">
+        <h2 id="teams-title">Team submissions</h2>
+        <div id="teams" class="grid"></div>
+        <div class="actions">
+          <button id="resolve" type="button">Resolve quarter</button>
+          <button id="publish" type="button">Publish results</button>
+        </div>
+        <section id="issued" class="panel" hidden aria-labelledby="issued-title">
+          <h3 id="issued-title">Replacement credential</h3>
+          <p>Share it privately with the team. Their previous credential is invalid.</p>
+          <code id="issued-credential"></code>
+          <button id="dismiss-credential" type="button" class="secondary">Dismiss</button>
+        </section>
+      </section>
+      <section id="team" hidden aria-labelledby="team-title">
+        <h2 id="team-title">Investment decision</h2>
+        <p id="disruption" class="notice" hidden>A service delay is affecting on-time delivery and increasing nonconforming transactions this quarter.</p>
+        <dl id="pilot-budget" class="grid metrics"></dl>
+        <form id="decision-form" class="panel" hidden novalidate>
+          <p id="guidance"></p>
+          <div id="pilot-inputs"></div>
+          <p>Planned spend <output id="pilot-spend"></output></p>
+          <button type="submit">Submit final decision</button>
+        </form>
+        <div id="accepted-decision"></div>
+      </section>
+      <section id="private-results" hidden aria-labelledby="private-title">
+        <h2 id="private-title">Detailed results</h2>
+        <div id="private-rounds"></div>
+      </section>
+      <section id="published-results" hidden aria-labelledby="published-title">
+        <h2 id="published-title">Published scores</h2>
+        <div id="published-rounds"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
