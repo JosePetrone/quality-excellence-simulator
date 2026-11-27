@@ -1,53 +1,44 @@
-# Sprint 005 Architect briefing
-
-## Where things stand
-
-The instructor can publish final standings after the sixth quarter and guide a debrief using six KPI trends per team and the recorded effects of team decisions. The instructor and both teams saw the same alias-based standings in a local Chrome session. The operator confirmed six published quarters and debrief over private HTTPS on three separate computers in about 60 minutes.
+# Sprint 006 Architect briefing
 
 ## Executive summary
 
-- **Business outcome** — One instructor can close a six-quarter session, announce the standings and connect decisions to business outcomes.
-- **Current focus** — Carry the missing budget warning into UI planning.
-- **What is proven** — Deterministic scoring, eligibility and ties, the final publication boundary, role-scoped access, restart and the rendered local debrief.
-- **What is not live** — The participant pilot.
+- **Business outcome** — Teams can correct an over-budget draft and review how their investments contributed to a published quarter before deciding what to do next.
+- **Current focus** — Observe both tasks without coaching during the full facilitated rehearsal.
+- **What is proven** — The pilot browser and service agree on the six-to-five boundary, six blocks can be valid with carryover, and team feedback respects publication and role boundaries.
+- **What is not live** — The participant pilot. Independent participant comprehension and full-session pacing are unverified.
 
 ## Readiness signals
 
 | Signal | Status | Evidence |
 | --- | --- | --- |
-| Final standings and team privacy | passed | Scoring fixtures, exact response assertions, Q6 embargo, post-release role reads and restart. |
-| Instructor debrief | passed | Local Chrome showed both six-KPI, six-quarter tables and immediate and delayed decision examples in the instructor view. |
-| Private HTTPS workflow | passed | Operator confirmed six quarters and debrief on three computers with zero access, refresh or privacy issues. |
-| Budget feedback | attention | Cedar needed help after six blocks failed to submit without a clear warning. |
+| Budget and submission | passed | Chrome verified six-to-five recovery, both role states, later six-block acceptance and distinct cash-only feedback with a synthetic snapshot. |
+| Published investment feedback | passed | Chrome verified Q1 and Q2 attribution, observed KPIs, publication timing, team separation, refresh, role switching and Q6 scheduling. |
+| Uncoached participant recovery and interpretation | attention | No unfamiliar participant performed the two tasks. Automation verified browser behavior only. |
+| Full pilot pacing | attention | The Sprint 005 technical rehearsal took about 60 minutes. The full facilitated rehearsal remains pending. |
 
-## Validation / test status
+## Validation
 
 **Tests:** 23 passing, 0 failing.
 
-Zero skipped and zero cancelled. Node 26.13.1. The repository has no configured static TypeScript check.
+Zero skipped and zero cancelled. Node 26.13.1. The loopback-restricted run returned EACCES on five API checks. The Builder and Architect each ran the suite with loopback access and it exited 0. The final run used `node --test tests/simulation.test.ts tests/participant.test.ts tests/pilot.test.ts`. `node --check src/pilot-view.js` and `git diff --check` exited 0. Git reported line-ending notices.
 
 ## Evidence
 
-- On baseline `4236dee5884f09774b6a596a6504c41c2a1edda0`, the Pack dry run and apply each exited 0 and identified the same four Sprint 005 files.
-- `node --test tests/simulation.test.ts tests/participant.test.ts tests/pilot.test.ts` exited 0 with local TCP access. The restricted baseline run encountered loopback EACCES on the five pilot tests. The same baseline suite with local TCP passed all 20 tests before the three scoring tests were added.
-- A disposable alias-only session in three isolated local Chrome contexts showed no final standings while Q6 awaited publication. All roles saw Maple win with 67.26 and Cedar rank second with 66.44 after release. The instructor saw 36 KPI values per team, Cedar's immediate Q1 complaint effect and Maple's Q2 applied effects linked to its Q1 block counts. Team refresh and switching from instructor sign-in to a team sign-in preserved the role boundary.
-- `git diff --check` exited 0 and the untracked scoring module passed its no-index whitespace check. Git emitted line-ending notices.
-- The Sprint 003 state snapshot and three original question rows were copied verbatim to the archive and read back before trimming the boot files.
+- The Pack dry run and application each reported the same four Sprint 006 paths. The baseline was clean main at `595b686`.
+- A temporary pilot with three isolated Chrome contexts verified the warning and its status-region markup, draft preservation, instructor state, valid retry, and a six-block submission after allowance carried forward. A synthetic snapshot with $70,000 authority and $55,000 cash verified the distinct opening-cash guidance on a $60,000 draft. The engine suite separately verified the authoritative cash check.
+- Q1 publication showed Maple's complaint investment and scheduled process investment. Q2 resolve retained Q1 on the team screen. Q2 publication displayed Q1's two applied process blocks, observed on-time delivery of 89.00%, and one Q2 process block scheduled for Q3. Cedar's different investments remained private. Refresh retained the summary. Q6 scheduled effects were labeled beyond the session. Switching to instructor cleared the team summary.
+- The prior Sprint 004 state snapshot was copied and compared before trimming the boot file.
 
 ## Plan corrections
 
-None. The plan review advised linking applied effects to their originating quarter and block counts and distinguishing Q6 investments scheduled beyond the session. Both are included. The Chrome harness first submitted before the page listeners were ready and succeeded after waiting for module readiness.
+The decision summary labels investment effect direction separately from observed KPI values. This avoids implying that a single investment accounts for the whole KPI change or any change masked by a cap. The Chrome harness initially matched its own assumed text structure and was corrected to use rendered labels. No product change was needed for those harness corrections.
 
 ## Flight record
 
-Critical. The acceptance invariant is that all roles receive standings only after Q6 publication while detailed decisions and KPIs remain role-scoped. The scoring projection starts from replay-validated results in the SQLite checkpoint and compares exact sums of official QES hundredths before display rounding. The fixture distinguishes equal displayed means with different exact sums and profits, higher-QES ineligibility, profit tie-breaks, shared rank and no winner. The three-computer workflow passed. The abbreviated technical run took about 60 minutes. The owner expects about 120 minutes for the full pilot with the completed UI and team deliberation.
-
-One of three allowed plan decisions and one of three allowed independent inspection decisions. Both passed. There were no blocking findings or accepted residual risks.
+Cross-layer. No separate plan decision was required. A Builder context implemented from the applied Pack. The separate Architect context inspected the implementation diff and ran the final suite and Chrome workflow. One inspection decision passed. No residual technical risk was accepted. The Pack explicitly calls for recording unavailable human observations as attention.
 
 ## Recommended next Architect action
 
-- **Do** — Use the technical rehearsal findings in UI planning and measure pacing in a full facilitated session.
+- **Do** — Run the full facilitated rehearsal and capture uncoached budget recovery, investment interpretation and round pacing.
 - **Owner** — Project owner and instructor.
-- **Decision** — Decide how to present over-budget feedback and when to measure full-session pacing.
-
-See the [operator rehearsal record](../docs/VALIDATION.md#operator-rehearsal-record).
+- **Decision** — Use those observations to decide pilot invitation readiness and whether the participant Results screen needs further revision.

@@ -47,6 +47,15 @@ h3 { margin: 0 0 .65rem; font-size: 1.075rem; overflow-wrap: anywhere; }
 dd { margin: 0; font-weight: 650; text-align: right; font-variant-numeric: tabular-nums; }
 .metrics dd { text-align: left; font-size: 1.25rem; }
 output { font-weight: 700; }
+.budget-warning {
+  padding: .7rem .9rem;
+  border-left: .25rem solid #9a251c;
+  color: #842019;
+  background: #fff0ed;
+  font-weight: 650;
+}
+.budget-warning:empty { margin: 0; padding: 0; border: 0; }
+.investment-observation { display: block; }
 input, button { font: inherit; }
 input { max-width: 100%; padding: .45rem; border: 1px solid #718d82; border-radius: .3rem; }
 input[type="number"] { width: 5rem; }

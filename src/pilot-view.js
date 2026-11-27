@@ -8,12 +8,30 @@ const currency = new Intl.NumberFormat("en-US", {
 });
 const money = (value) => currency.format(value);
 const fixed = (value) => value.toFixed(2);
+const formatList = new Intl.ListFormat("en-US");
 const categories = Object.entries(investmentLabels);
 const form = element("decision-form");
 const errors = {
   "invalid-blocks": "Enter a whole number from 0 to 5 in each category.",
-  "over-allowance": "Planned spend exceeds available spending authority.",
-  "over-cash": "Planned spend exceeds opening cash.",
+  "over-allowance": "Your planned spend exceeds the spending allowance. Remove blocks to fit the allowance and try again.",
+  "over-cash": "Your planned spend exceeds opening cash. Remove blocks to fit the opening cash and try again.",
+};
+const investmentEffects = {
+  training: [
+    ["On-time delivery", "higher on-time delivery"],
+    ["Nonconforming transactions", "fewer nonconforming transactions"],
+    ["Employee productivity", "higher employee productivity"],
+  ],
+  process: [
+    ["On-time delivery", "higher on-time delivery"],
+    ["Nonconforming transactions", "fewer nonconforming transactions"],
+  ],
+  complaints: [["Customer satisfaction", "higher customer satisfaction"]],
+  technology: [
+    ["On-time delivery", "higher on-time delivery"],
+    ["Employee productivity", "higher employee productivity"],
+  ],
+  risk: [["Nonconforming transactions", "fewer nonconforming transactions"]],
 };
 let credential = sessionStorage.getItem(storageKey);
 let snapshot = null;
@@ -89,10 +107,39 @@ const inputs = categories.map(([name, label]) => {
   return input;
 });
 
-function displaySpend() {
-  const valid = inputs.every((input) => input.validity.valid);
-  const blocks = inputs.reduce((total, input) => total + input.valueAsNumber, 0);
-  element("pilot-spend").value = valid ? money(blocks * BLOCK_COST) : "Enter valid block counts";
+function updateBudgetWarning(message) {
+  const warning = element("pilot-budget-warning");
+  if (warning.textContent !== message) warning.textContent = message;
+}
+
+function blockCount(count) {
+  return `${count} ${count === 1 ? "block" : "blocks"}`;
+}
+
+function displaySpend(budget) {
+  const plannedSpend = element("pilot-spend");
+  const allowanceBalance = element("pilot-allowance-balance");
+  if (!budget || inputs.some((input) => !input.validity.valid)) {
+    plannedSpend.textContent = "—";
+    allowanceBalance.textContent = "—";
+    updateBudgetWarning("");
+    return false;
+  }
+
+  const spend = BLOCK_COST * inputs.reduce((total, input) => total + input.valueAsNumber, 0);
+  const remaining = budget.authority - spend;
+  const cashOverage = spend - budget.cash;
+  plannedSpend.textContent = money(spend);
+  allowanceBalance.textContent = `${money(Math.abs(remaining))} ${remaining < 0 ? "over budget" : "remaining"}`;
+  const limits = [];
+  if (remaining < 0) limits.push(`${money(-remaining)} over the ${money(budget.authority)} spending allowance.`);
+  if (cashOverage > 0) limits.push(`${money(cashOverage)} over your ${money(budget.cash)} opening cash.`);
+  if (limits.length) {
+    const blocksToRemove = Math.ceil(Math.max(-remaining, cashOverage) / BLOCK_COST);
+    limits.push(`Remove ${blockCount(blocksToRemove)} to submit.`);
+  }
+  updateBudgetWarning(limits.join(" "));
+  return limits.length > 0;
 }
 
 function showInstructor(state) {
@@ -115,16 +162,14 @@ function showInstructor(state) {
 }
 
 function showTeam(state, quarterChanged) {
-  if (quarterChanged) {
-    form.reset();
-    displaySpend();
-  }
+  if (quarterChanged) form.reset();
   element("disruption").hidden = state.quarter !== 1 || state.phase !== "open";
   facts(state.budget ? [
     ["Available spending authority", money(state.budget.authority)],
     ["Opening cash", money(state.budget.cash)],
   ] : [], element("pilot-budget"));
   form.hidden = state.phase !== "open" || !!state.decision;
+  displaySpend(form.hidden ? null : state.budget);
   const accepted = element("accepted-decision");
   accepted.replaceChildren();
   if (state.decision) accepted.append(node("p", "Decision submitted."), decisionFacts(state.decision));
@@ -136,6 +181,48 @@ function showTeam(state, quarterChanged) {
   }));
   element("published-results").hidden = state.published.length === 0;
   return state.rounds.toReversed().map(({ decision, result }) => detailResult(state.alias, decision, result));
+}
+
+function showInvestmentFeedback(rounds = []) {
+  const section = element("investment-feedback");
+  const title = element("investment-feedback-title");
+  const content = element("investment-feedback-content");
+  const latest = rounds.at(-1);
+  section.hidden = !latest;
+  title.textContent = latest ? `How your investments affected quarter ${latest.quarter}` : "";
+  content.replaceChildren();
+  if (!latest) return;
+
+  const previous = rounds.at(-2);
+  const observed = Object.fromEntries(performanceRows(latest.result.kpis));
+  const groups = [
+    ["immediate", "Took effect this quarter", latest],
+    ["applied", "Took effect from an earlier quarter", previous],
+    ["scheduled", "Scheduled for later", latest],
+  ];
+  for (const [timing, heading, source] of groups) {
+    const list = node("ul");
+    for (const id of latest.result.explanations) {
+      const [effectTiming, category] = id.split(".");
+      if (effectTiming !== timing) continue;
+      const decision = `Q${source.quarter} · ${investmentLabels[category]} · ${blockCount(source.decision[category])}`;
+      const item = node("li");
+      item.append(node("strong", decision));
+      if (timing === "scheduled") {
+        const when = latest.quarter === QUARTERS ? "beyond the end of this session" : `for quarter ${latest.quarter + 1}`;
+        item.append(` — Scheduled ${when}.`);
+      } else {
+        const effects = investmentEffects[category];
+        const directions = effects.map(([, direction]) => direction);
+        item.append(` — Investment effect: supports ${formatList.format(directions)}.`, node("span",
+          `Observed Q${latest.quarter}: ${effects.map(([metric]) => `${metric} ${observed[metric]}`).join(" · ")}`,
+          "investment-observation"));
+      }
+      list.append(item);
+    }
+    if (list.childElementCount) content.append(node("h3", heading), list);
+  }
+  if (!content.childElementCount) content.append(node("p", "No investment effects were recorded for this quarter."));
 }
 
 function resultsTable(caption, columns, rows) {
@@ -230,6 +317,7 @@ function render(state) {
   element("team").hidden = instructor || state.phase === "complete";
   if (instructor) element("published-results").hidden = true;
   const details = instructor ? showInstructor(state) : showTeam(state, previous?.quarter !== state.quarter);
+  showInvestmentFeedback(instructor ? [] : state.rounds);
   showStandings(state.finalStandings);
   showDebrief(instructor && state.finalStandings ? state.rounds : null);
   const privateRounds = element("private-rounds");
@@ -261,12 +349,14 @@ function signOut() {
   element("accepted-decision").replaceChildren();
   element("private-rounds").replaceChildren();
   element("published-rounds").replaceChildren();
+  showInvestmentFeedback();
   showStandings(null);
   showDebrief(null);
   element("session-title").textContent = "";
   element("phase").textContent = "";
   clearIssued();
   form.reset();
+  displaySpend(null);
   element("credential").focus();
 }
 
@@ -290,6 +380,10 @@ async function request(activeCredential, action, body) {
     const data = await response.json();
     if (credential !== activeCredential) return;
     if (!response.ok) {
+      if (action === "submit" && (data.error === "over-allowance" || data.error === "over-cash")) {
+        updateBudgetWarning(errors[data.error]);
+        return;
+      }
       status.textContent = errors[data.error] ?? (response.status === 409
         ? "The round changed or the action is no longer available. Check the current round."
         : "This action could not be completed.");
@@ -334,13 +428,17 @@ element("sign-out").addEventListener("click", () => {
   element("status").textContent = "";
 });
 element("dismiss-credential").addEventListener("click", clearIssued);
-form.addEventListener("input", displaySpend);
+form.addEventListener("input", () => displaySpend(snapshot?.budget));
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const invalid = inputs.find((input) => !input.validity.valid);
   if (invalid) {
     element("status").textContent = errors["invalid-blocks"];
     invalid.focus();
+    return;
+  }
+  if (displaySpend(snapshot?.budget)) {
+    element("pilot-budget-warning").focus();
     return;
   }
   const decision = Object.fromEntries(inputs.map((input) => [input.name, input.valueAsNumber]));

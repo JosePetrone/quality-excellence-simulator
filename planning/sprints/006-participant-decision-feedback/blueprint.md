@@ -1,0 +1,13 @@
+# Sprint 006 blueprint
+
+In the team form show planned spend, allowance remaining or overage, and actionable inline feedback. Keep opening cash distinct. Use the current role snapshot for allowance and cash and the existing engine block cost. Recompute from valid draft inputs on edit and on relevant snapshot refresh. Prevent over-limit submission locally while retaining the service guard and actionable handling of server validation errors. Keep editable inputs intact through rejection and polling. Make changes readable without color and announce budget errors via accessible status.
+
+Render a visible, quarter-labeled summary of the latest published own-team results before expandable detail. Group immediate, previously applied and newly scheduled effects. Trace delayed effects to the preceding quarter's submitted decision. Show category-specific KPI direction supported by the engine and relevant actual KPI values with separate labels. For Q6 scheduled effects say they are beyond the session. Keep the section absent until there is a published quarter and clear it on role change or sign-out. Preserve detailed results and instructor debrief.
+
+## Flight evidence
+
+Cross-layer. The team form must agree with the authoritative allowance and cash checks, and the investment summary must represent only the latest published own-team result with correct source quarter. At clean main 595b686, src/pilot-view.js sums form inputs, src/pilot-store.mjs exposes the role budget and calls resolveQuarter before saving, and src/simulation.ts multiplies blocks by BLOCK_COST and validates allowance and cash separately. The store also projects published rounds and own decisions. The view can link each applied explanation to the previous published own-team decision; current effects use the current round. The inherited instructor debrief already uses this timing rule.
+
+Discriminating cases: Q1 three training plus three process exceeds $50,000 by $10,000; reducing process to two fits exactly. Later authority and cash can support six blocks. An allowance above cash must not suppress the cash check. Q1 two process and one complaint, followed by Q2 one process and zero complaints, distinguishes applied Q1 two blocks from scheduled Q2 one block, with no immediate Q2 complaint attribution. A competing team uses a different allocation. Before Q2 publication retain Q1 only. Q6 scheduled investments act beyond the session. Recorded effects describe engine contributions and actual KPIs show the combined outcome.
+
+The exact warning Cedar saw and uncoached participant behavior remain unverified by source inspection.

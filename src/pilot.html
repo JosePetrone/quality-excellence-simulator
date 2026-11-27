@@ -46,7 +46,11 @@
         <form id="decision-form" class="panel" hidden novalidate>
           <p id="guidance"></p>
           <div id="pilot-inputs"></div>
-          <p>Planned spend <output id="pilot-spend"></output></p>
+          <dl class="facts">
+            <div><dt>Planned spend</dt><dd id="pilot-spend"></dd></div>
+            <div><dt>Spending allowance</dt><dd id="pilot-allowance-balance"></dd></div>
+          </dl>
+          <p id="pilot-budget-warning" class="budget-warning" role="status" tabindex="-1"></p>
           <button type="submit">Submit final decision</button>
         </form>
         <div id="accepted-decision"></div>
@@ -58,6 +62,10 @@
       <section id="debrief" hidden aria-labelledby="debrief-title">
         <h2 id="debrief-title">Instructor debrief</h2>
         <div id="debrief-content"></div>
+      </section>
+      <section id="investment-feedback" hidden aria-labelledby="investment-feedback-title">
+        <h2 id="investment-feedback-title"></h2>
+        <div id="investment-feedback-content" class="panel"></div>
       </section>
       <section id="private-results" hidden aria-labelledby="private-title">
         <h2 id="private-title">Detailed results</h2>
