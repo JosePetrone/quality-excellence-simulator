@@ -1,0 +1,7 @@
+# Acceptance
+
+1. Six published quarters produce the specified standings. Tests distinguish cash and profit boundaries, high-QES ineligibility, exact-mean ordering before display rounding, profit tie-break, shared rank and no winner.
+2. Final standings are absent before Q6 publication and present afterward and on restart. Unauthorized requests cannot see them. Team snapshots expose only the allowed comparison fields and keep competitor decisions and detailed results private.
+3. Instructor view shows standings, six quarter values for each KPI for each team, and rule-based immediate and delayed examples when present. Team views show standings by alias. Verify rendered instructor and team views.
+4. Document the private HTTPS rehearsal, including three computers, one instructor and two alias-based teams, six published quarters, the 120-minute target, no access or isolation failures, one explained decision trade-off per team, and observation of facilitator interventions. Capture participant-role timings and issues without credentials or private decisions. Keep operator-controlled database and backups outside the repo with seven-day retention. Physical rehearsal evidence is an operator gate before pilot invitations. If unavailable record it as pending, with no claim of rehearsal completion.
+5. Existing loopback tests pass and git diff checks are clean. Record actual evidence and the outstanding operator gate in the briefing.

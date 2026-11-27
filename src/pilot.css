@@ -66,6 +66,18 @@ button.secondary:hover:not(:disabled) { background: #e4efe8; }
 button:disabled { cursor: default; opacity: .55; }
 :focus-visible { outline: 3px solid #166a9b; outline-offset: 3px; }
 summary { font-weight: 700; cursor: pointer; }
+.results-table { overflow-x: auto; }
+.results-table table { width: 100%; border-collapse: collapse; }
+.results-table th, .results-table td {
+  padding: .45rem .6rem;
+  border-bottom: 1px solid #d1ded6;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+.results-table td { white-space: nowrap; }
+.results-table caption { margin-bottom: .35rem; font-weight: 700; text-align: left; }
+.debrief-step + .debrief-step { margin-top: .75rem; }
+.debrief-step h3 { margin-bottom: .2rem; }
 code { display: block; margin: .75rem 0; overflow-wrap: anywhere; user-select: all; }
 #status { color: #9a251c; }
 #status:empty { margin: 0; }

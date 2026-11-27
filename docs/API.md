@@ -27,3 +27,9 @@ Send `Authorization: Bearer <credential>`. POST routes accept same-origin JSON w
 | POST /api/rotate-team | Instructor | `teamId` of `a` or `b` |
 
 Absent, invalid or expired access returns 401. A valid credential with the wrong role returns 403. Invalid command data returns 400. A stale quarter, invalid phase or conflicting duplicate returns 409. Resolved details are visible to the instructor until publication. The shared published projection contains the quarter and two alias/QES pairs.
+
+## Final standings
+
+Following Q6 publication, each authenticated snapshot adds `finalStandings` with `outcome` and `teams`. The outcome is `single-winner`, `shared-winners`, or `no-winner`. Each team row contains only `alias`, `qes` (the two-decimal final mean), `eligible`, and `rank` (a number for eligible teams and `null` otherwise). Rank 1 identifies the winner or joint winners. The field is absent during decisions and while Q6 awaits publication. Existing role-specific result fields retain their previous visibility.
+
+Before separate-computer access, confirm an owner-controlled HTTPS endpoint restricts access to the three invited computers and preserves the external Host header for same-origin validation. Keep the Node service bound to loopback. Record the approved forwarding limits and how the operator will detect connectivity or forwarding errors. Monitoring can record service health and status counts. Exclude credentials, authorization headers, request bodies and team decisions from logs. See [rehearsal procedure](VALIDATION.md).

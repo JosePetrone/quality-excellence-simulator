@@ -1,57 +1,53 @@
-# Sprint 004 Architect briefing
+# Sprint 005 Architect briefing
 
 ## Where things stand
 
-One instructor and two alias-based teams can now run a recoverable pilot session in local browsers. The instructor resolves submitted decisions and releases results separately.
+The instructor can publish final standings after the sixth quarter and guide a debrief using six KPI trends per team and the recorded effects of team decisions. The instructor and both teams saw the same alias-based standings in a local Chrome session. The operator confirmed six published quarters and debrief over private HTTPS on three separate computers in about 60 minutes.
 
 ## Executive summary
 
-- **Business outcome** — An instructor can run and recover a two-team session while each team retains private decisions and sees the scores the instructor releases.
-- **Current focus** — Prepare the debrief and agree on rehearsal conditions before inviting teams.
-- **What is proven** — Role isolation, credential renewal, round integrity, durable recovery, the publication boundary and six-quarter completion on loopback.
-- **What is not live** — Private HTTPS access from separate computers, final rankings, debrief and pilot rehearsal.
+- **Business outcome** — One instructor can close a six-quarter session, announce the standings and connect decisions to business outcomes.
+- **Current focus** — Carry the missing budget warning into UI planning.
+- **What is proven** — Deterministic scoring, eligibility and ties, the final publication boundary, role-scoped access, restart and the rendered local debrief.
+- **What is not live** — The participant pilot.
 
 ## Readiness signals
 
 | Signal | Status | Evidence |
 | --- | --- | --- |
-| Team access and release | passed | Automated role and field checks plus three isolated Chrome contexts. |
-| Durable round progression | passed | Concurrent resolution, forced rollback, restart checkpoints and malformed checkpoint rejection. |
-| Separate-computer rehearsal | attention | Private HTTPS, operator retention rules and rehearsal measures remain open. |
+| Final standings and team privacy | passed | Scoring fixtures, exact response assertions, Q6 embargo, post-release role reads and restart. |
+| Instructor debrief | passed | Local Chrome showed both six-KPI, six-quarter tables and immediate and delayed decision examples in the instructor view. |
+| Private HTTPS workflow | passed | Operator confirmed six quarters and debrief on three computers with zero access, refresh or privacy issues. |
+| Budget feedback | attention | Cedar needed help after six blocks failed to submit without a clear warning. |
 
 ## Validation / test status
 
-**Tests:** 20 passing, 0 failing.
+**Tests:** 23 passing, 0 failing.
 
-No skips or cancellations. Node 26.13.1. The repository has no configured static TypeScript check.
+Zero skipped and zero cancelled. Node 26.13.1. The repository has no configured static TypeScript check.
 
 ## Evidence
 
-- The Architect Pack dry-run and apply both exited 0 and reported the same four Sprint 004 destinations.
-- `node --test tests/simulation.test.ts tests/participant.test.ts tests/pilot.test.ts` exited 0 with local TCP access. The restricted first run blocked local TCP on the five pilot tests.
-- `node scripts/serve-pilot.mjs init <absolute-temporary-db> Cedar Maple` and `node scripts/serve-pilot.mjs serve <absolute-temporary-db>` were exercised with a temporary database. Three isolated Chrome browser contexts verified sign-in, refresh, distinct submissions, instructor resolution and publication, both teams' released scores, next-quarter entry and refresh of published history. The rendered instructor and team views were inspected.
-- `git diff --check` exited 0 with line-ending notices. Untracked files were checked individually for whitespace diagnostics.
+- On baseline `4236dee5884f09774b6a596a6504c41c2a1edda0`, the Pack dry run and apply each exited 0 and identified the same four Sprint 005 files.
+- `node --test tests/simulation.test.ts tests/participant.test.ts tests/pilot.test.ts` exited 0 with local TCP access. The restricted baseline run encountered loopback EACCES on the five pilot tests. The same baseline suite with local TCP passed all 20 tests before the three scoring tests were added.
+- A disposable alias-only session in three isolated local Chrome contexts showed no final standings while Q6 awaited publication. All roles saw Maple win with 67.26 and Cedar rank second with 66.44 after release. The instructor saw 36 KPI values per team, Cedar's immediate Q1 complaint effect and Maple's Q2 applied effects linked to its Q1 block counts. Team refresh and switching from instructor sign-in to a team sign-in preserved the role boundary.
+- `git diff --check` exited 0 and the untracked scoring module passed its no-index whitespace check. Git emitted line-ending notices.
+- The Sprint 003 state snapshot and three original question rows were copied verbatim to the archive and read back before trimming the boot files.
 
 ## Plan corrections
 
-The sprint scope held. The first plan review required explicit concurrency and restart assertions. The first inspection found that incomplete persisted state could reopen and lose an accepted decision. The repair replays saved decisions before accepting the checkpoint and verifies three corruption cases on reopen.
+None. The plan review advised linking applied effects to their originating quarter and block counts and distinguishing Q6 investments scheduled beyond the session. Both are included. The Chrome harness first submitted before the page listeners were ready and succeeded after waiting for module readiness.
 
 ## Flight record
 
-Critical. The authorization boundary runs from the bearer credential through the SQLite transaction and role-derived projection to the browser. Reviewed on baseline `37d835a`. Team B retained the Q1 effects in Q2 and matched the fixture of $175,000 cash, 91% on-time delivery and 79.41 QES. Before publication, neither team received the resolved quarter. Shared rows contained only each alias and QES. Repeat resolution, rollback, credential replacement and stale actions were checked without changing the engine.
+Critical. The acceptance invariant is that all roles receive standings only after Q6 publication while detailed decisions and KPIs remain role-scoped. The scoring projection starts from replay-validated results in the SQLite checkpoint and compares exact sums of official QES hundredths before display rounding. The fixture distinguishes equal displayed means with different exact sums and profits, higher-QES ineligibility, profit tie-breaks, shared rank and no winner. The three-computer workflow passed. The abbreviated technical run took about 60 minutes. The owner expects about 120 minutes for the full pilot with the completed UI and team deliberation.
 
-| ID | First decision | Severity | Failure and correction | Status |
-| --- | --- | --- | --- | --- |
-| PLAN-001 | Plan 1 | blocking | Make simultaneous instructor resolution and single advancement explicit. | resolved |
-| PLAN-002 | Plan 1 | blocking | Test restart with a pending decision, resolved embargo and published history. | resolved |
-| INSPECT-001 | Inspection 1 | blocking | Reject an incomplete decision, state or result by validating the checkpoint before reopening. | resolved |
-
-Three plan decisions and two independent inspection decisions. No residual risk was accepted.
+One of three allowed plan decisions and one of three allowed independent inspection decisions. Both passed. There were no blocking findings or accepted residual risks.
 
 ## Recommended next Architect action
 
-- **Do** — Specify the final scoring and debrief, then define the separate-computer rehearsal.
-- **Owner** — Project owner, Architect and instructor.
-- **Decision** — Approve scoring and ties, retention, private HTTPS setup and evidence for pilot success.
+- **Do** — Use the technical rehearsal findings in UI planning and measure pacing in a full facilitated session.
+- **Owner** — Project owner and instructor.
+- **Decision** — Decide how to present over-budget feedback and when to measure full-session pacing.
 
-Use one instructor and two teams on separate computers to rehearse the full six-quarter session and debrief before inviting pilot participants.
+See the [operator rehearsal record](../docs/VALIDATION.md#operator-rehearsal-record).

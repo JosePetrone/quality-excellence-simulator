@@ -12,7 +12,7 @@
 | 002 | Deterministic engine slice | done | Prove that decisions yield reproducible and explainable outcomes. |
 | 003 | Participant decision and results loop | done | Let teams submit decisions and interpret results. |
 | 004 | Instructor control and isolated session | done | Let one instructor run a recoverable two-team session and release results while protecting private decisions. |
-| 005 | Debrief and pilot rehearsal | planned | Prove the six-round flow and measure learning and usability in the pilot. |
+| 005 | Debrief and pilot rehearsal | done | Deliver final standings and instructor debrief, then verify the flow on three computers before inviting pilot participants. |
 
 ## Notes
 

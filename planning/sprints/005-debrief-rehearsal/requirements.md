@@ -1,0 +1,3 @@
+# Sprint 005 requirements
+
+After the instructor publishes quarter six, show final standings to all three roles by alias, with eligibility, final QES, rank and winner outcome. Show six quarterly observations for each of the six raw KPIs and explain immediate and delayed decision effects in the instructor debrief. Preserve existing team privacy and publication behavior. Use approved, verified ISO 9001 references only. Provide an operator rehearsal procedure and evidence sheet for private HTTPS on three computers. Provisioning and the physical rehearsal require an owner-controlled endpoint and three operators or computers. Carry that checkpoint forward visibly if unavailable.

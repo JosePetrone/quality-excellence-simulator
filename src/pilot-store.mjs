@@ -5,6 +5,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import { isDeepStrictEqual } from "node:util";
 import { availableAllowance, initialTeamState, QUARTERS, resolveQuarter, RULESET_VERSION } from "./simulation.ts";
+import { finalStandings } from "./pilot-standings.mjs";
 
 const repository = realpathSync(fileURLToPath(new URL("../", import.meta.url)));
 const lifetime = 24 * 60 * 60 * 1000;
@@ -176,11 +177,13 @@ export function rotateInstructor(path) {
 
 function snapshot(session, role) {
   const { phase, quarter, teams, rounds } = session;
+  const completed = phase === "complete" ? { finalStandings: finalStandings(rounds) } : {};
   if (role === "instructor") {
     return {
       role, phase, quarter,
       teams: teams.map(({ id, alias, decision }) => ({ id, alias, decision })),
       rounds,
+      ...completed,
     };
   }
   const team = teams.find(({ id }) => id === role);
@@ -205,6 +208,7 @@ function snapshot(session, role) {
       quarter: round.quarter,
       teams: round.teams.map(({ alias, result }) => ({ alias, qes: result.qes })),
     })),
+    ...completed,
   };
 }
 

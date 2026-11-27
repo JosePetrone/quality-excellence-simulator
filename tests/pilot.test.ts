@@ -6,10 +6,79 @@ import { DatabaseSync } from "node:sqlite";
 import { test, type TestContext } from "node:test";
 import { startPilot } from "../scripts/serve-pilot.mjs";
 import { provisionPilot, rotateInstructor } from "../src/pilot-store.mjs";
+import { finalStandings } from "../src/pilot-standings.mjs";
 
 const zero = { training: 0, process: 0, complaints: 0, technology: 0, risk: 0 };
 const teamA = { ...zero, complaints: 3 };
 const teamB = { ...zero, training: 1, process: 2, technology: 1, risk: 1 };
+
+function scoredRounds(
+  cedar: { qes: number[], profit: number, cash: number },
+  maple: { qes: number[], profit: number, cash: number },
+) {
+  return Array.from({ length: 6 }, (_, index) => ({
+    teams: [cedar, maple].map(({ qes, profit, cash }, slot) => ({
+      alias: slot === 0 ? "Cedar" : "Maple",
+      result: {
+        qes: qes[index],
+        finances: {
+          operatingProfit: index === 0 ? profit + 1 : index === 5 ? -1 : 0,
+          closingCash: index === 5 ? cash : 100,
+        },
+      },
+    })),
+  }));
+}
+
+test("final standings gate winning on positive cash and nonnegative total profit", () => {
+  const high = { qes: Array(6).fill(99), profit: 100, cash: 0 };
+  const low = { qes: Array(6).fill(60), profit: 0, cash: 1 };
+  assert.deepEqual(finalStandings(scoredRounds(high, low)), {
+    outcome: "single-winner",
+    teams: [
+      { alias: "Maple", qes: 60, eligible: true, rank: 1 },
+      { alias: "Cedar", qes: 99, eligible: false, rank: null },
+    ],
+  });
+  assert.deepEqual(finalStandings(scoredRounds(high, { ...low, profit: -1 })), {
+    outcome: "no-winner",
+    teams: [
+      { alias: "Cedar", qes: 99, eligible: false, rank: null },
+      { alias: "Maple", qes: 60, eligible: false, rank: null },
+    ],
+  });
+});
+
+test("final standings compare exact means before display rounding or profit", () => {
+  const cedar = { qes: [80.01, 80, 80, 80, 80, 80], profit: 1, cash: 100 };
+  const maple = { qes: Array(6).fill(80), profit: 200, cash: 300 };
+  assert.deepEqual(finalStandings(scoredRounds(cedar, maple)), {
+    outcome: "single-winner",
+    teams: [
+      { alias: "Cedar", qes: 80, eligible: true, rank: 1 },
+      { alias: "Maple", qes: 80, eligible: true, rank: 2 },
+    ],
+  });
+});
+
+test("equal exact QES averages use total profit and share the win on an exact tie", () => {
+  const cedar = { qes: [79, 81, 80, 80, 80, 80], profit: 100, cash: 1000 };
+  const maple = { qes: Array(6).fill(80), profit: 150, cash: 150 };
+  assert.deepEqual(finalStandings(scoredRounds(cedar, maple)), {
+    outcome: "single-winner",
+    teams: [
+      { alias: "Maple", qes: 80, eligible: true, rank: 1 },
+      { alias: "Cedar", qes: 80, eligible: true, rank: 2 },
+    ],
+  });
+  assert.deepEqual(finalStandings(scoredRounds(cedar, { ...maple, profit: 100 })), {
+    outcome: "shared-winners",
+    teams: [
+      { alias: "Cedar", qes: 80, eligible: true, rank: 1 },
+      { alias: "Maple", qes: 80, eligible: true, rank: 1 },
+    ],
+  });
+});
 
 async function setup(t: TestContext) {
   const directory = mkdtempSync(join(tmpdir(), "qualityedge-pilot-"));
@@ -202,6 +271,7 @@ test("restart retains lone acceptance, resolved protection, published history an
   const afterRelease = await ok(b);
   await restart();
   assert.deepEqual(await ok(b), afterRelease);
+  assert.equal(Object.hasOwn(afterRelease, "finalStandings"), false);
   assert.equal(afterRelease.quarter, 2);
   assert.equal(afterRelease.published.length, 1);
   for (let quarter = 2; quarter <= 6; quarter++) {
@@ -214,6 +284,18 @@ test("restart retains lone acceptance, resolved protection, published history an
       assert.equal(q2.kpis.onTimePercent, 91);
       assert.equal(q2.qes, 79.41);
     }
+    if (quarter === 6) {
+      assert.equal(Object.hasOwn(snapshot, "finalStandings"), false);
+      for (const team of [a, b]) {
+        const waiting = await ok(team);
+        assert.equal(Object.hasOwn(waiting, "finalStandings"), false);
+        assert.equal(waiting.rounds.length, 5);
+      }
+      await restart();
+      for (const role of [instructor, a, b]) {
+        assert.equal(Object.hasOwn(await ok(role), "finalStandings"), false);
+      }
+    }
     await ok(instructor, "publish", { quarter });
   }
   const complete = await ok(b);
@@ -221,6 +303,38 @@ test("restart retains lone acceptance, resolved protection, published history an
   assert.equal(complete.quarter, 6);
   assert.equal(complete.budget, null);
   assert.deepEqual(complete.published.map(({ quarter }) => quarter), [1, 2, 3, 4, 5, 6]);
+  const expected = {
+    outcome: "single-winner",
+    teams: [
+      { alias: "Maple", qes: 67.26, eligible: true, rank: 1 },
+      { alias: "Cedar", qes: 66.44, eligible: true, rank: 2 },
+    ],
+  };
+  const finishedInstructor = await ok(instructor);
+  const cedar = await ok(a);
+  for (const view of [finishedInstructor, cedar, complete]) {
+    assert.deepEqual(view.finalStandings, expected);
+  }
+  for (const [view, slot] of [[cedar, 0], [complete, 1]] as const) {
+    assert.deepEqual(Object.keys(view).sort(), [
+      "alias", "budget", "decision", "finalStandings", "phase", "published", "quarter", "role", "rounds",
+    ]);
+    assert.deepEqual(view.rounds, finishedInstructor.rounds.map(({ quarter, teams }) => ({
+      quarter, decision: teams[slot].decision, result: teams[slot].result,
+    })));
+    assert.deepEqual(view.published, finishedInstructor.rounds.map(({ quarter, teams }) => ({
+      quarter, teams: teams.map(({ alias, result }) => ({ alias, qes: result.qes })),
+    })));
+  }
+  await restart();
+  assert.deepEqual(await ok(instructor), finishedInstructor);
+  assert.deepEqual(await ok(a), cedar);
+  assert.deepEqual(await ok(b), complete);
+  for (const invalid of [undefined, "invalid"]) {
+    const denied = await call(invalid);
+    assert.equal(denied.status, 401);
+    assert.equal(Object.hasOwn(denied.body, "finalStandings"), false);
+  }
   assert.equal((await call(b, "submit", { quarter: 7, decision: zero })).status, 409);
 });
 
